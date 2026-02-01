@@ -93,7 +93,6 @@ export default function RikoHome() {
     }, 20); 
   };
 
- const GEMINI_API_KEY = "AIzaSyCs7m1mpQfb4-Go-PckeiQRR5hiEMfHAE0";
 
 const sendMessage = async () => {
   if (!userPrompt.trim()) return;
@@ -109,39 +108,24 @@ const sendMessage = async () => {
   setHasChatStarted(true);
   setIsLoading(true);
 
+  // placeholder for typing animation
   setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
   try {
-    const contents = [
-      {
-        role: "user",
-        parts: [{ text: rikoContext }],
+    const response = await fetch("https://r-ik-oapi.vercel.app/api/RikoChat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      ...updatedMessages.map((m) => ({
-        role: m.role === "assistant" ? "model" : "user",
-        parts: [{ text: m.content }],
-      })),
-    ];
-
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents,
-        }),
-      }
-    );
+      body: JSON.stringify({
+        messages: updatedMessages,
+      }),
+    });
 
     const data = await response.json();
-    console.log("Gemini response:", data);
+    console.log("Riko backend response:", data);
 
-    const aiResponse =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "No response from Riko AI";
+    const aiResponse = data?.response || "No response from Riko AI";
 
     setIsLoading(false);
 
@@ -157,21 +141,21 @@ const sendMessage = async () => {
         console.log("✅ Typing complete");
       }
     );
-
   } catch (error) {
-    console.error("Gemini error:", error);
+    console.error("Riko error:", error);
 
     setMessages((prev) => [
       ...prev.slice(0, -1),
       {
         role: "assistant",
-        content: "Error: Unable to reach Riko AI.",
+        content: "⚠️ Unable to reach Riko AI.",
       },
     ]);
 
     setIsLoading(false);
   }
 };
+
 
 
 
