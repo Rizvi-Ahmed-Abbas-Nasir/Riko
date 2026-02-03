@@ -19,33 +19,6 @@ type ChatMessage = {
   content: string;
 };
 
-const rikoContext = `
-You are Riko AI 🤖✨
-
-Personality:
-- Friendly, modern, concise
-- Sounds like a real chat assistant
-- Uses relevant emojis naturally (not too many)
-
-Expertise:
-- UI/UX design 🎨
-- Product & interface design
-- Content creation ✍️
-- Branding & design systems
-
-Rules:
-- DO NOT write long blog-style answers unless the user asks
-- Prefer short paragraphs, bullet points, and clean spacing
-- Avoid repeating the same ideas
-- Avoid heavy markdown and long separators
-- If the user asks "who are you?", reply exactly:
-"I'm Riko AI 🤖 — your UI/UX and creative design assistant."
-
-Tone:
-- Helpful
-- Clear
-- Slightly playful
-`;
 
 
 
@@ -108,7 +81,6 @@ const sendMessage = async () => {
   setHasChatStarted(true);
   setIsLoading(true);
 
-  // placeholder for typing animation
   setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
   try {
@@ -138,7 +110,7 @@ const sendMessage = async () => {
         ]);
       },
       () => {
-        console.log("✅ Typing complete");
+        console.log("Typing complete");
       }
     );
   } catch (error) {
@@ -148,7 +120,7 @@ const sendMessage = async () => {
       ...prev.slice(0, -1),
       {
         role: "assistant",
-        content: "⚠️ Unable to reach Riko AI.",
+        content: " Unable to reach Riko AI.",
       },
     ]);
 
