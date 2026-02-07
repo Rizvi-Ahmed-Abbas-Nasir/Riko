@@ -65,26 +65,20 @@ export default function RikoHome() {
     { text: "Optimize your posts like a pro", icon: Rocket },
   ];
 
-  // FIXED: Immediate response on button click
   const handleQuickAction = (prompt: string) => {
-    // Clear any existing prompt and immediately send the action prompt
     setUserPrompt("");
     
-    // Create user message immediately
     const userMessage: ChatMessage = {
       role: "user",
       content: prompt,
     };
     
-    // Update messages and start chat
     setMessages((prev) => [...prev, userMessage]);
     setHasChatStarted(true);
     
-    // Start loading and add placeholder for AI response
     setIsLoading(true);
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
     
-    // Send the request immediately
     sendActionMessage(prompt);
   };
 
@@ -180,7 +174,7 @@ export default function RikoHome() {
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
     try {
-      const response = await fetch("https://r-ik-oapi.vercel.app/api/RikoChat", {
+      const response = await fetch("http://82.112.235.182:3001/api/RikoChat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
