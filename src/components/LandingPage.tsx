@@ -84,7 +84,7 @@ export default function RikoHome() {
 
   const sendActionMessage = async (prompt: string) => {
     try {
-      const response = await fetch("https://api.rikooai.com/api/RikoChat", {
+      const response = await fetch("https://r-ik-oapi-8wey.vercel.app/api/RikoChat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -174,7 +174,7 @@ export default function RikoHome() {
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
     try {
-      const response = await fetch("https://api.rikooai.com/api/RikoChat", {
+      const response = await fetch("https://r-ik-oapi-8wey.vercel.app/api/RikoChat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
