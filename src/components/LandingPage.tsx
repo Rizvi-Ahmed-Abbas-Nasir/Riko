@@ -31,7 +31,6 @@ type ChatMessage = {
   attachments?: AttachmentType[];
 };
 
-// ── FileHintPopover (pure, outside main component) ──────────────
 function FileHintPopover({
   onChooseFile,
   popoverRef,
@@ -67,7 +66,6 @@ function FileHintPopover({
   );
 }
 
-// ── ComingSoonButton (pure, outside main component) ──────────────
 function ComingSoonButton({ label }: { label: string }) {
   return (
     <div className="relative group">
@@ -84,7 +82,6 @@ function ComingSoonButton({ label }: { label: string }) {
   );
 }
 
-// ── MessageAttachments (pure, outside main component) ────────────
 function MessageAttachments({ atts }: { atts: AttachmentType[] }) {
   return (
     <div className="flex flex-wrap gap-2 mb-2">
@@ -107,7 +104,6 @@ function MessageAttachments({ atts }: { atts: AttachmentType[] }) {
   );
 }
 
-// ── Main component ───────────────────────────────────────────────
 export default function RikoHome() {
   const [userPrompt, setUserPrompt] = useState("");
   const [hasChatStarted, setHasChatStarted] = useState(false);
@@ -306,10 +302,9 @@ export default function RikoHome() {
 
   const canSend = userPrompt.trim().length > 0 || attachments.length > 0;
 
-  // ── Shared input box JSX (inlined, NOT a nested component) ───
   const inputBoxJSX = (
     <div className="relative bg-[#FAFAF8] border border-[#FFEBD3] rounded-2xl shadow-md overflow-visible">
-      {/* Attachment chips */}
+      
       {attachments.length > 0 && (
         <div className="flex flex-wrap gap-2 px-3 pt-2 pb-1">
           {attachments.map((att, i) => (
@@ -335,11 +330,10 @@ export default function RikoHome() {
       )}
 
       <div className="flex items-center gap-2 px-3 sm:px-4 py-2.5">
-        {/* Paperclip button + popover */}
         <div className="relative flex-shrink-0">
           <button
             ref={paperclipRef}
-            onMouseDown={(e) => e.preventDefault()} // prevent input blur
+            onMouseDown={(e) => e.preventDefault()}
             onClick={handlePaperclipClick}
             title="Attach file"
             className={`p-1.5 rounded-lg transition ${
@@ -356,7 +350,6 @@ export default function RikoHome() {
           )}
         </div>
 
-        {/* Text input */}
         <input
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
@@ -369,9 +362,8 @@ export default function RikoHome() {
           className="flex-1 min-w-0 bg-transparent text-sm focus:outline-none placeholder:text-[#c4bcb9]"
         />
 
-        {/* Send button */}
         <button
-          onMouseDown={(e) => e.preventDefault()} // prevent input blur
+          onMouseDown={(e) => e.preventDefault()} 
           onClick={() => handleSend()}
           disabled={!canSend}
           className={`w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full transition ${
@@ -386,10 +378,9 @@ export default function RikoHome() {
     </div>
   );
 
-  // ── Render ───────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#F1F2ED]">
-      {/* Hidden file input */}
+     
       <input
         ref={fileInputRef}
         type="file"
@@ -401,7 +392,6 @@ export default function RikoHome() {
 
       <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#FFF8EE]/80 via-[#FFEFEA]/60 to-[#FBF5FF]/60">
 
-        {/* Sticky header */}
         <header className="sticky top-0 z-30 flex items-center justify-between bg-white/95 backdrop-blur-sm border-b border-[#f5e6d8] px-4 sm:px-6 py-3">
           <img src="/logo.png" alt="Riko.ai" className="h-7 sm:h-8 w-auto" />
           <div className="flex gap-2 sm:gap-3">
@@ -414,7 +404,6 @@ export default function RikoHome() {
           </div>
         </header>
 
-        {/* ── HOME VIEW ── */}
         {!hasChatStarted && (
           <main className="flex flex-col flex-1">
             <section className="flex flex-col items-center text-center px-4 sm:px-6 pt-10 sm:pt-14 pb-6">
@@ -423,12 +412,10 @@ export default function RikoHome() {
                 Ask <span className="text-orange-500">Riko</span> Anything
               </h1>
 
-              {/* Input bar */}
               <div className="w-full max-w-xl mx-auto">
                 {inputBoxJSX}
               </div>
 
-              {/* Quick action pills */}
               <div className="mt-5 sm:mt-6 flex flex-wrap gap-2 sm:gap-3 justify-center w-full max-w-2xl">
                 {actions.map(({ label, icon: Icon, prompt }) => (
                   <button
@@ -443,7 +430,6 @@ export default function RikoHome() {
               </div>
             </section>
 
-            {/* Feature cards */}
             <section className="px-4 sm:px-6 pb-10 sm:pb-14">
               <p className="text-center text-base sm:text-lg mb-5 sm:mb-6 text-[#604F4A]">
                 Power up your social game with Riko's AI-driven tools!
@@ -463,10 +449,8 @@ export default function RikoHome() {
           </main>
         )}
 
-        {/* ── CHAT VIEW ── */}
         {hasChatStarted && (
           <main className="flex flex-col flex-1">
-            {/* Scrollable messages */}
             <div className="flex-1 overflow-y-auto px-3 sm:px-4 pt-4 sm:pt-6 pb-36">
               <div className="max-w-2xl mx-auto w-full space-y-3 sm:space-y-4">
                 {messages.map((msg, i) => (
@@ -500,7 +484,6 @@ export default function RikoHome() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Action buttons */}
               <div className="max-w-2xl mx-auto w-full mt-3 sm:mt-4 flex flex-wrap gap-2 text-[10px]">
                 <button
                   onClick={handleCopy}
@@ -519,7 +502,6 @@ export default function RikoHome() {
               </div>
             </div>
 
-            {/* Fixed bottom input */}
             <div className="fixed bottom-0 left-0 right-0 z-40 px-3 sm:px-4 pb-4 pt-2 bg-gradient-to-t from-[#F1F2ED] via-[#F1F2ED]/90 to-transparent">
               <div className="max-w-2xl mx-auto">
                 {inputBoxJSX}
